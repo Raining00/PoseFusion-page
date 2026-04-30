@@ -1,129 +1,449 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PoseFusion: Fusing Neural Implicit Surfaces for Multi-View Reconstruction from Multi-Pose Captures</title>
-  <link rel="stylesheet" href="./css/style.css">
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-  </script>
-</head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PoseFusion: Joint Registration and Fusion of Pose-wise Neural Implicit Surfaces for Multi-pose 3D Reconstruction</title>
+<meta name="description" content="PoseFusion: a two-stage registration-and-fusion pipeline that aligns and fuses pose-wise neural implicit surfaces into a unified, complete 3D reconstruction." />
 
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet" />
+
+<!-- Font Awesome for icon buttons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<link rel="stylesheet" href="css/style.css" />
+</head>
 <body>
 
-  <h1>PoseFusion: Fusing Neural Implicit Surfaces for Multi-View Reconstruction from Multi-Pose Captures</h1>
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <div class="container">
+    <h1 class="title">
+      PoseFusion: Joint Registration and Fusion of Pose-wise<br />
+      Neural Implicit Surfaces for Multi-pose 3D Reconstruction
+    </h1>
 
-  <div class="buttons">
-    <a href="https://arxiv.org/abs/xxxx.xxxxx" class="button">📄 Paper</a>
-    <a href="https://github.com/your_repo" class="button">💻 Code</a>
-    <a href="https://drive.google.com/drive/folders/1bywGTxJeaAApyOMZbGiSYhYcuV___j_K?usp=share_link" class="button">📦
-      Dataset</a>
-  </div>
-
-  <div class="image-center">
-    <img src="image/teaser.png" alt="teaser" height="290" />
-  </div>
-
-  <h2>Abstract</h2>
-  <div class="abstract-container">
-    <p>
-      Recent advances in multi-view 3D reconstruction, particularly neural implicit surface methods such as NeuS, have
-      achieved high-quality results by leveraging signed distance functions (SDFs) to model geometry. However,
-      accurately reconstructing complex, self-occluding objects remains challenging when images are captured from a
-      single pose, due to incomplete spatial coverage. To address this limitation, we propose <strong>PoseFusion</strong>, a novel method
-      for multi-view 3D reconstruction from multi-pose captures. The core idea is to fuse neural implicit surfaces
-      learned independently from each pose into a unified representation. To this end, we design a two-stage
-      registration and fusion pipeline. In the first stage, we compute an oriented bounding box (OBB) from the SDF of
-      each pose. These OBBs, together with corresponding SDF values and multi-view image data, are used to estimate a
-      coarse registration. In the second stage, we introduce an image- and SDF-augmented refinement strategy. By
-      establishing correspondences across multi-view images and lifting them into 3D space, we iteratively refine the
-      alignment between poses and significantly enhance the registration accuracy. To support our study, we introduce a
-      new dataset containing both synthetic and real-world objects with complex geometry and severe self-occlusion, each
-      captured from multiple poses with corresponding multi-view images. Experimental results demonstrate that
-      PoseFusion is robust and capable of reconstructing high-quality geometry from challenging multi-pose, multi-view
-      inputs. We will make the code and dataset publicly available.
-    </p>
-  </div>
-
-  <!-- <h2>Videos</h2>
-  <div class="video">
-    <iframe src="https://www.youtube.com/embed/elkZcS1EwMs?si=xGPFm923atmuQsvT" allowfullscreen></iframe>
-  </div> -->
-
-  <h2>Method</h2>
-  <div class="method-container">
-    <div class="image-center">
-      <img src="image/pipline.png" alt="pipline" height=230 />
+    <!-- Authors (placeholder — fill in later) -->
+    <div class="authors">
+      <span class="author"><a href="#">Author One</a><sup>1</sup></span>
+      <span class="author"><a href="#">Author Two</a><sup>1,2</sup></span>
+      <span class="author"><a href="#">Author Three</a><sup>2</sup></span>
+      <span class="author"><a href="#">Author Four</a><sup>1*</sup></span>
     </div>
-    <p>
-      PoseFusion reconstructs geometry and appearance from multi-view images captured under multiple poses. (a) Input
-      multi-view images from multiple object poses. (b) Per-pose reconstructions using neural implicit surfaces. (c)
-      Coarse alignment using oriented bounding boxes. (d) Fine alignment guided by image correspondences and SDFs. (e)
-      Final fusion yields a complete 3D reconstruction with enhanced geometric details.
-    </p>
-    <h3>Coarse Stage</h3>
-    <div class="image-center">
-      <img src="image/coarse_stage.png" alt="Coarse Registration Stage" height=350 />
+
+    <!-- Affiliations (placeholder — fill in later) -->
+    <div class="affiliations">
+      <p><sup>1</sup>Institution One &nbsp;&nbsp; <sup>2</sup>Institution Two</p>
+      <p class="footnote"><sup>*</sup>Corresponding author</p>
     </div>
-    <p>
-      SDF and image-feature-augmented OBB alignment. (a) Sample points are randomly generated on the surface of a unit
-      cube and are mapped to the oriented bounding boxes of the source and target poses. The SDF values at these points
-      are used to compute the geometric distance term. (b) For the input images, feature representations
-      \(\mathcal{I}_t\)
-      and \(\mathcal{I}_s\) are extracted using the third residual block (conv3) of a ResNet-18 network. The features
-      contribute to the image-based similarity term in the alignment objective.
-    </p>
-    <h3>Fine Stage</h3>
-    <div class="image-center">
-      <img src="image/fine_stage.png" alt="Fine Registration Stage" height=250>
+
+    <!-- Action buttons -->
+    <div class="buttons">
+      <a class="btn" href="#" target="_blank" rel="noopener">
+        <i class="fas fa-file-pdf"></i><span>Paper</span>
+      </a>
+      <a class="btn" href="#" target="_blank" rel="noopener">
+        <i class="ai ai-arxiv"></i><span>arXiv</span>
+      </a>
+      <a class="btn" href="https://raining00.github.io/PoseFusion-page/" target="_blank" rel="noopener">
+        <i class="fas fa-link"></i><span>Project Page</span>
+      </a>
+      <a class="btn" href="#" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i><span>Code</span>
+      </a>
+      <a class="btn" href="#" target="_blank" rel="noopener">
+        <i class="fas fa-database"></i><span>Dataset</span>
+      </a>
     </div>
-    <p>
-      This stage refines pose alignment by combining 2D keypoint correspondences (extracted by eLoFTR) with SDF-based
-      constraints. On the left, we illustrate the selection of image pairs: a coarse transformation is first applied to
-      the source pose’s extrinsic parameters, and candidate pairs are chosen based on the trace of these transformed
-      metrics. eLoFTR is then used to extract 2D correspondences, which are lifted to 3D by tracing along camera rays
-      and snapping to the zero level set. Finally, the source and target SDFs, \(S_{\text{source}}\) and
-      \(S_{\text{target}}\), are used to compute losses that enforce alignment consistent with the implicit surfaces.
+  </div>
+</section>
+
+<!-- ============================ TEASER ============================ -->
+<section class="section section--narrow">
+  <div class="container">
+    <figure class="figure">
+      <!-- IMAGE: figs/teaser_large_letters.pdf -> images/teaser.png -->
+      <img src="images/teaser.png" alt="PoseFusion teaser" onerror="this.parentNode.classList.add('img-missing')" />
+      <div class="img-fallback">images/teaser.png</div>
+      <figcaption>
+        Given multi-view images captured under multiple object poses, PoseFusion
+        automatically registers and fuses the geometry and appearance learned
+        from each pose into a unified neural implicit surface. The resulting
+        representation supports both mesh extraction and novel-view rendering,
+        recovering geometry in regions that are poorly observed from any single
+        pose.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================ ABSTRACT ============================ -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Abstract</h2>
+    <p class="abstract">
+      Recent advances in multi-view 3D reconstruction, especially neural
+      implicit surface methods, can recover high-quality geometry by
+      representing shape with signed distance functions (SDFs). However,
+      reconstructing complex objects with severe self-occlusion remains
+      difficult when all images are captured under a single object pose,
+      because the observed views often provide incomplete spatial coverage.
+      We propose <em>PoseFusion</em>, a multi-pose reconstruction framework
+      that fuses neural implicit surfaces independently learned from different
+      object poses into a unified 3D representation. PoseFusion follows a
+      two-stage registration-and-fusion pipeline. First, we extract an oriented
+      bounding box (OBB) from the mesh derived from each pose-specific SDF and
+      use the OBBs, SDF samples, and multi-view image features to estimate a
+      coarse inter-pose alignment. Second, we refine the alignment using
+      image- and SDF-guided correspondences: cross-pose image matches are
+      lifted to 3D using the learned SDFs and used to iteratively optimize the
+      relative transformations. To facilitate evaluation, we construct a
+      dataset of synthetic and real-world objects with complex geometry and
+      strong self-occlusion, captured across multiple poses with calibrated
+      multi-view images. Experiments show that PoseFusion is robust under
+      challenging capture conditions and consistently produces high-fidelity
+      reconstructions from multi-pose, multi-view inputs.
     </p>
   </div>
+</section>
 
-  <h2>Results</h2>
-  <div class="comparison-grid">
-    <img-comparison-slider class="slider-with-animated-handle">
-      <img slot="first" src="image/101015341_p15.jpg" height=250/>
-      <img slot="second" src="image/101015341_p16.jpg" height="250"/>
-      <svg slot="handle" class="custom-animated-handle" xmlns="http://www.w3.org/2000/svg" width="100"
-        viewBox="-8 -3 16 6">
-        <path stroke="#fff" d="M -5 -2 L -7 0 L -5 2 M -5 -2 L -5 2 M 5 -2 L 7 0 L 5 2 M 5 -2 L 5 2" stroke-width="1"
-          fill="#fff" vector-effect="non-scaling-stroke"></path>
-      </svg>
-    </img-comparison-slider>
+<!-- ============================ MOTIVATION / PROBLEM SETTING ============================ -->
+<section class="section section--alt">
+  <div class="container">
+    <h2 class="section-title">Problem Setting</h2>
+    <p>
+      Existing neural implicit surface methods typically assume that all input
+      views are captured under a <em>single</em> object pose. This limits their
+      ability to recover complete geometry for objects with severe
+      self-occlusion or contact-supported regions. PoseFusion targets a related
+      but distinct alignment problem: given multi-view images captured under
+      <em>multiple</em> object poses, register the resulting per-pose
+      reconstructions and fuse them into a unified SDF-based surface.
+    </p>
 
-    <img-comparison-slider class="slider-with-animated-handle">
-      <img slot="first" src="image/101015341_p8.jpg" height=250/>
-      <img slot="second" src="image/101015341_p9.jpg" height=250/>
-      <svg slot="handle" class="custom-animated-handle" xmlns="http://www.w3.org/2000/svg" width="100"
-        viewBox="-8 -3 16 6">
-        <path stroke="#fff" d="M -5 -2 L -7 0 L -5 2 M -5 -2 L -5 2 M 5 -2 L 7 0 L 5 2 M 5 -2 L 5 2" stroke-width="1"
-          fill="#fff" vector-effect="non-scaling-stroke"></path>
-      </svg>
-    </img-comparison-slider>
-
-    <img-comparison-slider class="slider-with-animated-handle">
-      <img slot="first" src="image/101015341_p13.jpg" height=250/>
-      <img slot="second" src="image/101015341_p14.jpg" height=250/>
-      <svg slot="handle" class="custom-animated-handle" xmlns="http://www.w3.org/2000/svg" width="100"
-        viewBox="-8 -3 16 6">
-        <path stroke="#fff" d="M -5 -2 L -7 0 L -5 2 M -5 -2 L -5 2 M 5 -2 L 7 0 L 5 2 M 5 -2 L 5 2" stroke-width="1"
-          fill="#fff" vector-effect="non-scaling-stroke"></path>
-      </svg>
-    </img-comparison-slider>
+    <figure class="figure">
+      <!-- IMAGE: figs/method_CMP.pdf -> images/method_cmp.png -->
+      <img src="images/method_cmp.png" alt="Three related alignment settings" onerror="this.parentNode.classList.add('img-missing')" />
+      <div class="img-fallback">images/method_cmp.png</div>
+      <figcaption>
+        Three related alignment settings. From left to right: relative
+        camera-pose estimation from unposed images, point-cloud registration,
+        and multi-pose neural-field registration with both geometric and
+        photometric cues.
+      </figcaption>
+    </figure>
   </div>
+</section>
 
-  <script defer src="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/index.js"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/styles.css" />
+<!-- ============================ PIPELINE ============================ -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Pipeline</h2>
+    <p>
+      PoseFusion is a <strong>two-stage registration-and-fusion</strong>
+      pipeline:
+    </p>
+    <ol class="pipeline-list">
+      <li><strong>Per-pose reconstruction.</strong> Each pose is reconstructed independently with a neural implicit surface.</li>
+      <li><strong>Coarse registration.</strong> Oriented bounding boxes (OBBs) extracted from per-pose meshes provide candidate alignments, scored by SDF samples and ResNet-18 image features.</li>
+      <li><strong>Fine registration.</strong> Cross-pose 2D correspondences from eLoFTR are lifted onto the zero-level set of the learned SDFs and used to refine the rigid transformation.</li>
+      <li><strong>Fusion.</strong> Camera extrinsics from all poses are unified, and a single neural implicit surface is jointly retrained on the merged multi-view set.</li>
+    </ol>
+
+    <figure class="figure">
+      <!-- IMAGE: figs/pipeline.pdf -> images/pipeline.png -->
+      <img src="images/pipeline.png" alt="PoseFusion pipeline overview" onerror="this.parentNode.classList.add('img-missing')" />
+      <div class="img-fallback">images/pipeline.png</div>
+      <figcaption>
+        Overview of the PoseFusion pipeline. (a) Input multi-view images from
+        different poses. (b) Per-pose reconstructions using neural implicit
+        surfaces. (c) Coarse alignment using oriented bounding boxes. (d) Fine
+        alignment guided by image correspondences and SDF constraints.
+        (e) Final fusion produces a complete 3D reconstruction with enhanced
+        geometric details.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================ METHOD ============================ -->
+<section class="section section--alt">
+  <div class="container">
+    <h2 class="section-title">Method</h2>
+
+    <h3 class="subsection-title">Coarse registration</h3>
+    <p>
+      Without loss of generality, we set the first pose as the target
+      <em>P<sub>t</sub></em> and align each remaining pose <em>P<sub>s</sub></em>
+      pairwise to it. After extracting per-pose meshes from the learned SDFs,
+      we apply PCA to obtain oriented bounding boxes
+      <em>O<sub>s</sub></em>, <em>O<sub>t</sub></em>. The 24 candidate vertex
+      correspondences between the OBBs define 24 rigid candidates
+      <em>τ<sub>1…24</sub></em>. We score each candidate with a combined
+      geometric–visual loss:
+    </p>
+
+    <div class="equation">
+      L<sub>coarse</sub> =
+      (λ<sub>sdf</sub> / N<sub>o</sub>) · Σᵢ ‖S<sub>t</sub><sup>(i)</sup> − S<sub>s</sub><sup>(i)</sup>‖
+      + λ<sub>img</sub> · ( 1 − cos( φ(I<sub>t</sub>), φ(I<sub>s</sub>) ) )
+    </div>
+
+    <p>
+      where φ(·) is the third residual block (conv3) of a ResNet-18 feature
+      extractor. We empirically set
+      λ<sub>sdf</sub> = λ<sub>img</sub> = 0.5 and sample
+      N<sub>o</sub> = 100,000 points on the OBB surfaces.
+    </p>
+
+    <figure class="figure">
+      <!-- IMAGE: figs/sdf_img_diff_wider.pdf -> images/sdf_image_diff.png -->
+      <img src="images/sdf_image_diff.png" alt="SDF- and image-feature-augmented OBB alignment" onerror="this.parentNode.classList.add('img-missing')" />
+      <div class="img-fallback">images/sdf_image_diff.png</div>
+      <figcaption>
+        SDF- and image-feature-augmented OBB alignment. (a) Random points
+        sampled on a unit cube are mapped to the OBBs of the source and target
+        poses; their SDF values yield the geometric term. (b) Image features
+        I<sub>s</sub>, I<sub>t</sub> are extracted from the third residual
+        block of ResNet-18 and used in the visual term.
+      </figcaption>
+    </figure>
+
+    <h3 class="subsection-title">Fine registration</h3>
+    <p>
+      The coarse transform <em>τ*</em> initializes the fine stage. We pick
+      cross-pose image pairs whose camera extrinsics are close after applying
+      <em>τ*</em>:
+    </p>
+
+    <div class="equation">
+      trace( E<sub>1</sub> · E′<sub>2</sub><sup>−1</sup> ) &lt; ε,
+      &nbsp;&nbsp;&nbsp; E′<sub>2</sub> = τ* · E<sub>2</sub>
+    </div>
+
+    <p>
+      eLoFTR matches the selected pairs in 2D; matched pixels are lifted to 3D
+      by tracing camera rays and snapping to the zero-level sets of the
+      learned SDFs. We then optimize the rigid transform
+      <strong>T = (R, t)</strong> by minimizing
+    </p>
+
+    <div class="equation">
+      L<sub>fine</sub> = κ( L<sub>sdf</sub> ) + λ · L<sub>rotation</sub>
+    </div>
+
+    <p>
+      where L<sub>sdf</sub> is a bidirectional SDF-consistency term that
+      pushes transformed source points to the target zero-level set (and vice
+      versa), L<sub>rotation</sub> = ‖R<sup>T</sup>R − I‖ keeps R orthogonal,
+      and κ is a robust kernel.
+    </p>
+
+    <figure class="figure">
+      <!-- IMAGE: figs/fine_reg.pdf -> images/fine_reg.png -->
+      <img src="images/fine_reg.png" alt="Fine registration overview" onerror="this.parentNode.classList.add('img-missing')" />
+      <div class="img-fallback">images/fine_reg.png</div>
+      <figcaption>
+        Overview of the fine registration stage: candidate image pairs are
+        selected by camera-pose similarity, eLoFTR provides 2D correspondences,
+        these are lifted to 3D via the learned SDFs, and the rigid transform
+        is refined by SDF-consistency losses.
+      </figcaption>
+    </figure>
+
+    <h3 class="subsection-title">Fusion (optional retraining)</h3>
+    <p>
+      After fine registration, all camera extrinsics are expressed in a
+      common coordinate frame. A single unified implicit surface is then
+      jointly retrained on the merged multi-view set. This step is optional
+      but consistently improves geometric completeness and rendering quality
+      for objects with severe self-occlusion or fine details.
+    </p>
+  </div>
+</section>
+
+<!-- ============================ DATASET ============================ -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Dataset</h2>
+    <p>
+      We construct a benchmark of <strong>18 objects</strong> — 11 synthetic
+      and 7 real-world — each captured under <strong>three poses</strong> with
+      30–40 multi-view images per pose. Synthetic data is rendered with
+      BlenderNeRF + Blender. Real captures use an iPhone, with intrinsics and
+      extrinsics calibrated against a 1m × 1m ArUco marker board so that all
+      poses share a common metric scale.
+    </p>
+
+    <figure class="figure">
+      <!-- IMAGE: figs/all_results_overview.pdf -> images/dataset_overview.png -->
+      <img src="images/dataset_overview.png" alt="Dataset and PoseFusion results overview" onerror="this.parentNode.classList.add('img-missing')" />
+      <div class="img-fallback">images/dataset_overview.png</div>
+      <figcaption>
+        Overview of the dataset and PoseFusion results. For each object we
+        show a representative input image and a rendered view of the fused
+        3D surface.
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============================ RESULTS ============================ -->
+<section class="section section--alt">
+  <div class="container">
+    <h2 class="section-title">Results</h2>
+
+    <h3 class="subsection-title">Qualitative comparison</h3>
+    <p>
+      We compare against DReg-NeRF, Reg-NF, and GaussReg on objects with
+      large pose variation, complex topology, partial symmetry, and severe
+      self-occlusion. PoseFusion successfully aligns all three poses and
+      produces coherent, complete reconstructions where baselines fail or
+      diverge by tens of degrees.
+    </p>
+
+    <figure class="figure">
+      <!-- IMAGE: figs/method_res_cmp.pdf -> images/reg_result_cmp.png -->
+      <img src="images/reg_result_cmp.png" alt="Qualitative registration comparison" onerror="this.parentNode.classList.add('img-missing')" />
+      <div class="img-fallback">images/reg_result_cmp.png</div>
+      <figcaption>
+        Qualitative registration comparison with DReg-NeRF, Reg-NF, and
+        GaussReg. Colors indicate reconstructions from different object
+        poses.
+      </figcaption>
+    </figure>
+
+    <h3 class="subsection-title">Fusion improves geometry &amp; rendering</h3>
+    <figure class="figure">
+      <!-- IMAGE: figs/exp_fusion_nikon_xiaomai.pdf -> images/fusion_results_detailed.png -->
+      <img src="images/fusion_results_detailed.png" alt="Fused vs. per-pose reconstructions" onerror="this.parentNode.classList.add('img-missing')" />
+      <div class="img-fallback">images/fusion_results_detailed.png</div>
+      <figcaption>
+        Visual comparison of the final fused geometry (c) and individual
+        pose-wise reconstructions (d). Highlighted regions show details
+        missing or distorted in single-pose results that are recovered after
+        fusion.
+      </figcaption>
+    </figure>
+
+    <h3 class="subsection-title">Quantitative comparison (synthetic)</h3>
+    <p>
+      Lower is better for both rotation error <em>R</em> (degrees) and
+      translation error <em>T</em> (×10²). Each cell reports
+      <em>source<sub>1</sub> / source<sub>2</sub></em>; ``—'' indicates a
+      failed run.
+    </p>
+    <div class="table-wrap">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Metric</th><th>Method</th>
+            <th>Bunny</th><th>Book</th><th>Nikon</th><th>Heel Slipper</th>
+            <th>Figurine A</th><th>Tank</th><th>Monster</th>
+            <th>Figurine B</th><th>Rubik's Cube</th><th>Lego</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td rowspan="4">R (°) ↓</td><td>Reg-NF</td>
+            <td>3.62/1.84</td><td>0.29/0.27</td><td>—/—</td><td>—/—</td>
+            <td>—/—</td><td>—/—</td><td>—/—</td><td>—/—</td><td>—/—</td><td>—/—</td></tr>
+          <tr><td>DReg-NeRF</td>
+            <td>—/—</td><td>—/—</td><td>—/—</td><td>—/—</td>
+            <td>—/—</td><td>—/—</td><td>—/—</td><td>—/—</td><td>—/—</td><td>—/—</td></tr>
+          <tr><td>GaussReg</td>
+            <td>13.98/—</td><td>10.21/22.27</td><td>—/—</td><td>3.27/—</td>
+            <td>—/—</td><td>—/—</td><td>—/—</td><td>25.29/—</td><td>—/—</td><td>—/—</td></tr>
+          <tr class="best"><td><strong>Ours</strong></td>
+            <td><strong>0.09/0.02</strong></td><td><strong>0.11/0.18</strong></td>
+            <td><strong>0.09/0.11</strong></td><td><strong>0.12/0.07</strong></td>
+            <td><strong>0.01/0.03</strong></td><td><strong>0.14/0.09</strong></td>
+            <td><strong>0.03/0.03</strong></td><td><strong>0.04/0.06</strong></td>
+            <td><strong>0.08/0.11</strong></td><td><strong>0.05/0.20</strong></td></tr>
+
+          <tr><td rowspan="4">T (×10²) ↓</td><td>Reg-NF</td>
+            <td>1.47/0.75</td><td>0.13/3.84</td><td>29.56/23.0</td><td>26.25/18.68</td>
+            <td>21.29/—</td><td>—/—</td><td>—/—</td><td>—/—</td><td>—/—</td><td>—/—</td></tr>
+          <tr><td>DReg-NeRF</td>
+            <td>11.48/15.11</td><td>14.7/12.3</td><td>27.72/1.33</td><td>2.36/15.55</td>
+            <td>13.05/12.41</td><td>—/—</td><td>—/—</td><td>—/—</td><td>—/—</td><td>—/—</td></tr>
+          <tr><td>GaussReg</td>
+            <td>2.40/26.58</td><td>1.13/15.15</td><td>7.83/—</td><td>2.73/—</td>
+            <td>30.09/—</td><td>—/—</td><td>—/28.40</td><td>11.69/—</td><td>—/—</td><td>—/—</td></tr>
+          <tr class="best"><td><strong>Ours</strong></td>
+            <td><strong>0.10/0.02</strong></td><td><strong>0.06/0.03</strong></td>
+            <td><strong>0.07/0.14</strong></td><td><strong>0.03/0.02</strong></td>
+            <td><strong>0.01/0.02</strong></td><td><strong>0.13/0.10</strong></td>
+            <td><strong>0.03/0.02</strong></td><td><strong>0.03/0.06</strong></td>
+            <td><strong>0.14/0.10</strong></td><td><strong>0.07/0.18</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="subsection-title">Ablation</h3>
+    <p>
+      Removing the coarse-registration stage causes the pipeline to fail across
+      every object; removing the fine stage degrades accuracy across the board.
+    </p>
+    <figure class="figure">
+      <!-- IMAGE: figs/ablation_wo_fine_coarse.pdf -> images/ablation.png -->
+      <img src="images/ablation.png" alt="Ablation of coarse and fine registration stages" onerror="this.parentNode.classList.add('img-missing')" />
+      <div class="img-fallback">images/ablation.png</div>
+      <figcaption>
+        Ablation. (a) Pose-wise reconstructions before registration. (b) Fine
+        only — fails to converge. (c) Coarse only — roughly aligned with
+        residual error. (d) Full PoseFusion model. (e) Close-up comparing
+        coarse-only vs. full model.
+      </figcaption>
+    </figure>
+
+    <h3 class="subsection-title">Failure cases</h3>
+    <div class="figure-grid">
+      <figure class="figure">
+        <!-- IMAGE: figs/failure_case_multi_OBB.pdf -> images/failure_multi_obb.png -->
+        <img src="images/failure_multi_obb.png" alt="Failure case: ambiguous OBBs" onerror="this.parentNode.classList.add('img-missing')" />
+        <div class="img-fallback">images/failure_multi_obb.png</div>
+        <figcaption>
+          Multiple plausible OBBs lead to large residual rotation after coarse
+          alignment.
+        </figcaption>
+      </figure>
+      <figure class="figure">
+        <!-- IMAGE: figs/failure_case_low_view_coverage.pdf -> images/failure_low_view.png -->
+        <img src="images/failure_low_view.png" alt="Failure case: low view overlap" onerror="this.parentNode.classList.add('img-missing')" />
+        <div class="img-fallback">images/failure_low_view.png</div>
+        <figcaption>
+          Low view overlap prevents reliable cross-pose correspondences and
+          breaks fine registration.
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ BIBTEX ============================ -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">BibTeX</h2>
+    <pre class="bibtex">@article{posefusion,
+  title   = {PoseFusion: Joint Registration and Fusion of Pose-wise Neural Implicit Surfaces for Multi-pose 3D Reconstruction},
+  author  = {Anonymous},
+  journal = {},
+  year    = {}
+}</pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p>
+      Website template inspired by academic project pages. Source available on
+      <a href="#">GitHub</a>.
+    </p>
+  </div>
+</footer>
+
 </body>
-
 </html>
