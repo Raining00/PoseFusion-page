@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PoseFusion: Fusing Neural Implicit Surfaces for Multi-View Reconstruction from Multi-Pose Captures</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+</head>
+
+<body>
+
+  <h1>PoseFusion: Fusing Neural Implicit Surfaces for Multi-View Reconstruction from Multi-Pose Captures</h1>
+
+  <div class="authors">
+    <a href="#">Gunali Hou</a><sup>1</sup>,
+    <a href="#">Yuanmu Xu</a><sup>2</sup>,
+    <a href="#">Ren Tenglong</a><sup>3</sup>,
+    <a href="#">Jiangbei Hu</a><sup>4</sup>,
+    <a href="#">Chen Qian</a><sup>7</sup>,
+    <a href="#">Fei Hou</a><sup>5</sup>,
+    <a href="#">Peng Song</a><sup>6</sup>,
+    <a href="#">Ying He</a><sup>1,✉</sup>
+  </div>
+
+  <div class="institutions">
+    <sup>1</sup>College of Computing and Data Science, Nanyang Technological University&nbsp; <br />
+    <sup>2</sup>School of Intelligence Science and Technology, University of Science and Technology Beijing &nbsp;
+    <br />
+    <sup>3</sup>College of Humanities, Arts and Social Sciences, Nanyang Technological University &nbsp;
+    <sup>4</sup>School of Software, Dalian University of Technology &nbsp; <br />
+    <sup>5</sup>Institute of Software, Chinese Academy of Sciences &nbsp;
+    <sup>6</sup>Singapore University of Technology and Design &nbsp;
+    <sup>7</sup>Sensetime &nbsp;
+  </div>
+
+  <div class="buttons">
+    <a href="https://arxiv.org/abs/xxxx.xxxxx" class="button">📄 Paper</a>
+    <a href="https://github.com/your_repo" class="button">💻 Code</a>
+    <a href="https://drive.google.com/drive/folders/1bywGTxJeaAApyOMZbGiSYhYcuV___j_K?usp=share_link" class="button">📦
+      Dataset</a>
+  </div>
+
+  <div class="image-center">
+    <img src="image/teaser.png" alt="teaser" height="290" />
+  </div>
+
+  <h2>Abstract</h2>
+  <div class="abstract-container">
+    <p>
+      Recent advances in multi-view 3D reconstruction, particularly neural implicit surface methods such as NeuS, have
+      achieved high-quality results by leveraging signed distance functions (SDFs) to model geometry. However,
+      accurately reconstructing complex, self-occluding objects remains challenging when images are captured from a
+      single pose, due to incomplete spatial coverage. To address this limitation, we propose <strong>PoseFusion</strong>, a novel method
+      for multi-view 3D reconstruction from multi-pose captures. The core idea is to fuse neural implicit surfaces
+      learned independently from each pose into a unified representation. To this end, we design a two-stage
+      registration and fusion pipeline. In the first stage, we compute an oriented bounding box (OBB) from the SDF of
+      each pose. These OBBs, together with corresponding SDF values and multi-view image data, are used to estimate a
+      coarse registration. In the second stage, we introduce an image- and SDF-augmented refinement strategy. By
+      establishing correspondences across multi-view images and lifting them into 3D space, we iteratively refine the
+      alignment between poses and significantly enhance the registration accuracy. To support our study, we introduce a
+      new dataset containing both synthetic and real-world objects with complex geometry and severe self-occlusion, each
+      captured from multiple poses with corresponding multi-view images. Experimental results demonstrate that
+      PoseFusion is robust and capable of reconstructing high-quality geometry from challenging multi-pose, multi-view
+      inputs. We will make the code and dataset publicly available.
+    </p>
+  </div>
+
+  <!-- <h2>Videos</h2>
+  <div class="video">
+    <iframe src="https://www.youtube.com/embed/elkZcS1EwMs?si=xGPFm923atmuQsvT" allowfullscreen></iframe>
+  </div> -->
+
+  <h2>Method</h2>
+  <div class="method-container">
+    <div class="image-center">
+      <img src="image/pipline.png" alt="pipline" height=230 />
+    </div>
+    <p>
+      PoseFusion reconstructs geometry and appearance from multi-view images captured under multiple poses. (a) Input
+      multi-view images from multiple object poses. (b) Per-pose reconstructions using neural implicit surfaces. (c)
+      Coarse alignment using oriented bounding boxes. (d) Fine alignment guided by image correspondences and SDFs. (e)
+      Final fusion yields a complete 3D reconstruction with enhanced geometric details.
+    </p>
+    <h3>Coarse Stage</h3>
+    <div class="image-center">
+      <img src="image/coarse_stage.png" alt="Coarse Registration Stage" height=350 />
+    </div>
+    <p>
+      SDF and image-feature-augmented OBB alignment. (a) Sample points are randomly generated on the surface of a unit
+      cube and are mapped to the oriented bounding boxes of the source and target poses. The SDF values at these points
+      are used to compute the geometric distance term. (b) For the input images, feature representations
+      \(\mathcal{I}_t\)
+      and \(\mathcal{I}_s\) are extracted using the third residual block (conv3) of a ResNet-18 network. The features
+      contribute to the image-based similarity term in the alignment objective.
+    </p>
+    <h3>Fine Stage</h3>
+    <div class="image-center">
+      <img src="image/fine_stage.png" alt="Fine Registration Stage" height=250>
+    </div>
+    <p>
+      This stage refines pose alignment by combining 2D keypoint correspondences (extracted by eLoFTR) with SDF-based
+      constraints. On the left, we illustrate the selection of image pairs: a coarse transformation is first applied to
+      the source pose’s extrinsic parameters, and candidate pairs are chosen based on the trace of these transformed
+      metrics. eLoFTR is then used to extract 2D correspondences, which are lifted to 3D by tracing along camera rays
+      and snapping to the zero level set. Finally, the source and target SDFs, \(S_{\text{source}}\) and
+      \(S_{\text{target}}\), are used to compute losses that enforce alignment consistent with the implicit surfaces.
+    </p>
+  </div>
+
+  <h2>Results</h2>
+  <div class="comparison-grid">
+    <img-comparison-slider class="slider-with-animated-handle">
+      <img slot="first" src="image/101015341_p15.jpg" height=250/>
+      <img slot="second" src="image/101015341_p16.jpg" height="250"/>
+      <svg slot="handle" class="custom-animated-handle" xmlns="http://www.w3.org/2000/svg" width="100"
+        viewBox="-8 -3 16 6">
+        <path stroke="#fff" d="M -5 -2 L -7 0 L -5 2 M -5 -2 L -5 2 M 5 -2 L 7 0 L 5 2 M 5 -2 L 5 2" stroke-width="1"
+          fill="#fff" vector-effect="non-scaling-stroke"></path>
+      </svg>
+    </img-comparison-slider>
+
+    <img-comparison-slider class="slider-with-animated-handle">
+      <img slot="first" src="image/101015341_p8.jpg" height=250/>
+      <img slot="second" src="image/101015341_p9.jpg" height=250/>
+      <svg slot="handle" class="custom-animated-handle" xmlns="http://www.w3.org/2000/svg" width="100"
+        viewBox="-8 -3 16 6">
+        <path stroke="#fff" d="M -5 -2 L -7 0 L -5 2 M -5 -2 L -5 2 M 5 -2 L 7 0 L 5 2 M 5 -2 L 5 2" stroke-width="1"
+          fill="#fff" vector-effect="non-scaling-stroke"></path>
+      </svg>
+    </img-comparison-slider>
+
+    <img-comparison-slider class="slider-with-animated-handle">
+      <img slot="first" src="image/101015341_p13.jpg" height=250/>
+      <img slot="second" src="image/101015341_p14.jpg" height=250/>
+      <svg slot="handle" class="custom-animated-handle" xmlns="http://www.w3.org/2000/svg" width="100"
+        viewBox="-8 -3 16 6">
+        <path stroke="#fff" d="M -5 -2 L -7 0 L -5 2 M -5 -2 L -5 2 M 5 -2 L 7 0 L 5 2 M 5 -2 L 5 2" stroke-width="1"
+          fill="#fff" vector-effect="non-scaling-stroke"></path>
+      </svg>
+    </img-comparison-slider>
+  </div>
+
+  <script defer src="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/index.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/img-comparison-slider@8/dist/styles.css" />
+</body>
+
+</html>
