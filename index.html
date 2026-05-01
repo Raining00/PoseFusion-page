@@ -45,16 +45,13 @@
       <a class="btn" href="#" target="_blank" rel="noopener">
         <i class="fas fa-file-pdf"></i><span>Paper</span>
       </a>
-      <a class="btn" href="#" target="_blank" rel="noopener">
-        <i class="ai ai-arxiv"></i><span>arXiv</span>
-      </a>
       <a class="btn" href="https://raining00.github.io/PoseFusion-page/" target="_blank" rel="noopener">
         <i class="fas fa-link"></i><span>Project Page</span>
       </a>
-      <a class="btn" href="#" target="_blank" rel="noopener">
+      <a class="btn" href="https://github.com/houguanli/honkai_neus" target="_blank" rel="noopener">
         <i class="fab fa-github"></i><span>Code</span>
       </a>
-      <a class="btn" href="#" target="_blank" rel="noopener">
+      <a class="btn" href="https://github.com/houguanli/honkai_neus" target="_blank" rel="noopener">
         <i class="fas fa-database"></i><span>Dataset</span>
       </a>
     </div>
@@ -110,29 +107,28 @@
   </div>
 </section>
 
-<!-- ============================ MOTIVATION / PROBLEM SETTING ============================ -->
+<!-- ============================ VIDEO OVERVIEW ============================ -->
 <section class="section section--alt">
   <div class="container">
-    <h2 class="section-title">Problem Setting</h2>
+    <h2 class="section-title">Video Overview</h2>
     <p>
-      Existing neural implicit surface methods typically assume that all input
-      views are captured under a <em>single</em> object pose. This limits their
-      ability to recover complete geometry for objects with severe
-      self-occlusion or contact-supported regions. PoseFusion targets a related
-      but distinct alignment problem: given multi-view images captured under
-      <em>multiple</em> object poses, register the resulting per-pose
-      reconstructions and fuse them into a unified SDF-based surface.
+      The video gives a quick overview of the multi-pose capture setting and
+      shows how PoseFusion aligns pose-wise reconstructions into one fused
+      neural implicit surface.
     </p>
 
     <figure class="figure">
-      <!-- IMAGE: figs/method_CMP.pdf -> images/method_cmp.png -->
-      <img src="images/method_cmp.png" alt="Three related alignment settings" onerror="this.parentNode.classList.add('img-missing')" />
-      <div class="img-fallback">images/method_cmp.png</div>
+      <div class="video-embed">
+        <iframe
+          src="https://www.youtube.com/embed/elkZcS1EwMs"
+          title="PoseFusion problem setting video"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
+      </div>
       <figcaption>
-        Three related alignment settings. From left to right: relative
-        camera-pose estimation from unposed images, point-cloud registration,
-        and multi-pose neural-field registration with both geometric and
-        photometric cues.
+        PoseFusion registers reconstructions from different object poses and
+        combines their complementary observations into a more complete result.
       </figcaption>
     </figure>
   </div>
@@ -380,45 +376,6 @@
             <td><strong>0.14/0.10</strong></td><td><strong>0.07/0.18</strong></td></tr>
         </tbody>
       </table>
-    </div>
-
-    <h3 class="subsection-title">Ablation</h3>
-    <p>
-      Removing the coarse-registration stage causes the pipeline to fail across
-      every object; removing the fine stage degrades accuracy across the board.
-    </p>
-    <figure class="figure">
-      <!-- IMAGE: figs/ablation_wo_fine_coarse.pdf -> images/ablation.png -->
-      <img src="images/ablation.png" alt="Ablation of coarse and fine registration stages" onerror="this.parentNode.classList.add('img-missing')" />
-      <div class="img-fallback">images/ablation.png</div>
-      <figcaption>
-        Ablation. (a) Pose-wise reconstructions before registration. (b) Fine
-        only — fails to converge. (c) Coarse only — roughly aligned with
-        residual error. (d) Full PoseFusion model. (e) Close-up comparing
-        coarse-only vs. full model.
-      </figcaption>
-    </figure>
-
-    <h3 class="subsection-title">Failure cases</h3>
-    <div class="figure-grid">
-      <figure class="figure">
-        <!-- IMAGE: figs/failure_case_multi_OBB.pdf -> images/failure_multi_obb.png -->
-        <img src="images/failure_multi_obb.png" alt="Failure case: ambiguous OBBs" onerror="this.parentNode.classList.add('img-missing')" />
-        <div class="img-fallback">images/failure_multi_obb.png</div>
-        <figcaption>
-          Multiple plausible OBBs lead to large residual rotation after coarse
-          alignment.
-        </figcaption>
-      </figure>
-      <figure class="figure">
-        <!-- IMAGE: figs/failure_case_low_view_coverage.pdf -> images/failure_low_view.png -->
-        <img src="images/failure_low_view.png" alt="Failure case: low view overlap" onerror="this.parentNode.classList.add('img-missing')" />
-        <div class="img-fallback">images/failure_low_view.png</div>
-        <figcaption>
-          Low view overlap prevents reliable cross-pose correspondences and
-          breaks fine registration.
-        </figcaption>
-      </figure>
     </div>
   </div>
 </section>
